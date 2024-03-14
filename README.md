@@ -102,7 +102,7 @@ Methods are not robust to **resize** or aspect ratio changed **crop** but robust
 *Showing 1 image out of 100 images*
 
 | Number | Attacks | Detected |
-| --- | --- | --- | --- |
+| --- | --- | --- |
 | 1 | Re-download | ![wm_redownload](https://raw.githubusercontent.com/Pakkamat/stealth_watermark/main/Test/image_downloads/1_wm.png) | 80% |
 | 2 | Crop 1/4 | ![wm_crop](https://raw.githubusercontent.com/Pakkamat/stealth_watermark/main/Test/image_crop/1_wm.png) | Fail% |
 | 3 | Brightness | ![wm_rotate](https://raw.githubusercontent.com/Pakkamat/stealth_watermark/main/Test/image_rotate/1_wm.png) | Fail |
