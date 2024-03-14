@@ -40,7 +40,7 @@ accuracy
 How To Use
 1. Open app.py
 
-2. Input your data from your Google Firebase
+2. Input your data from your [Google Firebase](https://firebase.google.com/)
 ```python
 config = {
   "apiKey":"Your api key",
