@@ -98,7 +98,7 @@ Methods are not robust to **resize** or aspect ratio changed **crop** but robust
 ### Attack Performance
 
 
-**Watermarked Image**
+**Test**
 
 ![wm](https://user-images.githubusercontent.com/1647036/106387712-03c17400-6416-11eb-9490-e5e860b025ad.png)
 
