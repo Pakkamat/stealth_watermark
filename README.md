@@ -1,4 +1,4 @@
-# invisible-watermark
+# invisible-watermark by dwt+dct
 [![PyPI](https://img.shields.io/pypi/v/invisible-watermark)](https://pypi.org/project/invisible-watermark/)
 [![License](https://img.shields.io/pypi/l/invisible-watermark.svg)](https://github.com/ShieldMnt/invisible-watermark/blob/main/LICENSE)
 
