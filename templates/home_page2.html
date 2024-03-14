@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stealth Watermark</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+
+body, html {
+  height: 100%;
+  line-height: 1.8;
+}
+
+/* Full height image header */
+.bgimg-1 {
+  background-position: center;
+  background-size: cover;
+  background-image: url("/static/bg_full.png");
+  min-height: 100%;
+}
+
+.w3-bar .w3-button {
+  padding: 16px;
+}
+/* CSS สำหรับ Loading Spinner */
+.loading-spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+
+.loading-spinner .loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 100px;
+    height: 100px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-card" id="myNavbar">
+    <a href="{{url_for('home_page')}}" class="w3-bar-item w3-button w3-wide">Stealth Watermark</a>
+    <!-- Right-sided navbar links -->
+    <div class="w3-right w3-hide-small">
+      <a href="{{url_for('home_page')}}" class="w3-bar-item w3-button" onclick="showSpinner()"><i class="fa fa-home"></i> Home</a>
+      <a href="{{url_for('add_page')}}" class="w3-bar-item w3-button" onclick="showSpinner()"><i class="fa fa-image"></i> Add</a>
+      <a href="{{url_for('check_page')}}" class="w3-bar-item w3-button" onclick="showSpinner()"><i class="fa fa-check-square-o"></i> Check</a>
+      <a href="{{url_for('howtouse_page')}}" class="w3-bar-item w3-button" onclick="showSpinner()"><i class="fa fa-book"></i> How to use</a>
+      <a href="{{url_for('logout')}}" class="w3-bar-item w3-button" onclick="showSpinner()"><i class="fa fa-chevron-right"></i> Logout</a>
+      <span class="w3-bar-item w3-button">Hi, {{name}}</span>
+    </div>
+    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+
+    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+</div>
+
+<!-- Sidebar on small screens when clicking the menu icon -->
+<nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
+  <a href="{{url_for('home_page')}}" onclick="w3_close()" class="w3-bar-item w3-button"> Home</a>
+  <a href="{{url_for('add_page')}}" onclick="w3_close()" class="w3-bar-item w3-button"> Add Watermark</a>
+  <a href="{{url_for('check_page')}}" onclick="w3_close()" class="w3-bar-item w3-button">Check Watermark</a>
+  <a href="{{url_for('howtouse_page')}}" onclick="w3_close()" class="w3-bar-item w3-button"> How to use</a>
+  <a href="{{url_for('logout')}}" onclick="w3_close()" class="w3-bar-item w3-button"> Logout</a>
+  <span class="w3-bar-item w3-button">Hi, {{name}}</span>
+</nav>
+
+<!-- Header with full-height image -->
+<header class="bgimg-1 w3-display-container" id="home">
+  <div class="w3-display-left w3-text-black" style="padding:48px">
+    <span class="w3-jumbo w3-hide-small w3-hide-medium">Start add invisible watermark<br></span>
+    <span style="font-size:30px"class="w3-hide-large w3-hide-small ">Start add invisible watermark<br></span>
+    <span style="font-size:21px"class="w3-hide-large w3-hide-medium ">Start add invisible watermark<br></span>
+    <span style="font-size:22px"class="w3-hide-medium w3-hide-small">Hello " {{name}} ", Welcome to website Stealth Watermark<br></span>
+    <span style="font-size:18px"class="w3-hide-large w3-hide-small">Hello " {{name}} ", Welcome to website Stealth Watermark<br></span>
+    <span style="font-size:14px"class="w3-hide-large w3-hide-medium ">Hello " {{name}} "<br> Welcome to website Stealth Watermark<br></span>
+    <p><a href="{{url_for('add_page')}}" class="w3-button w3-blue w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Add Watermark in image</a></p>
+  </div> 
+</header>
+
+
+<!-- Modal for full size images on click-->
+<div id="modal01" class="w3-modal w3-black" onclick="this.style.display='none'">
+  <span class="w3-button w3-xxlarge w3-black w3-padding-large w3-display-topright" title="Close Modal Image">×</span>
+  <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
+    <img id="img01" class="w3-image">
+    <p id="caption" class="w3-opacity w3-large"></p>
+  </div>
+</div>
+
+<script>
+// Modal Image Gallery
+function onClick(element) {
+  document.getElementById("img01").src = element.src;
+  document.getElementById("modal01").style.display = "block";
+  var captionText = document.getElementById("caption");
+  captionText.innerHTML = element.alt;
+}
+
+function showSpinner() {
+    // แสดง Loading Spinner
+    var spinner = document.createElement('div');
+    spinner.classList.add('loading-spinner');
+    spinner.innerHTML = '<div class="loader"></div>'; // เพิ่ม loader ลงใน div spinner
+    document.body.appendChild(spinner);
+
+    // เมื่อคลิกลิงก์แล้ว ให้ลิงก์นั้นเปลี่ยนไปยัง URL ที่กำหนด
+    // คุณอาจต้องปรับปรุง URL ตามที่ต้องการ
+    setTimeout(function() {
+        window.location.href = "{{url_for('home_page')}}";
+    }, 1000); // หรือจะลงเวลาที่ต้องการให้ Spinner แสดงเป็นเวลาใดก็ได้
+}
+
+// Toggle between showing and hiding the sidebar when clicking the menu icon
+var mySidebar = document.getElementById("mySidebar");
+
+function w3_open() {
+  if (mySidebar.style.display === 'block') {
+    mySidebar.style.display = 'none';
+  } else {
+    mySidebar.style.display = 'block';
+  }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+    mySidebar.style.display = "none";
+}
+</script>
+
+</body>
+</html>

@@ -12,9 +12,11 @@ invisible-watermark is a **python** library and command line tool for creating i
 
 [supported algorithms](https://github.com/ShieldMnt/invisible-watermark#supported-algorithms)
 * [Discrete wavelet transform](https://en.wikipedia.org/wiki/Discrete_wavelet_transform) + [Discrete cosine transform](https://en.wikipedia.org/wiki/Discrete_cosine_transform) frequency embedding algorithm variants.
+* [RivaGAN](https://github.com/DAI-Lab/RivaGAN), a deep-learning model trained from Hollywood2 movie clips dataset.
 
 [speed](https://github.com/ShieldMnt/invisible-watermark#running-speed-cpu-only)
 * default embedding method ```dwtDct``` is fast and suitable for on-the-fly embedding
+* ```dwtDctSvd``` is 3x slower and ```rivaGan``` is 10x slower, for large image they are not suitable for on-the-fly embedding
 
 accuracy
 * The algorithm **cannot guarantee** to decode the original watermarks 100% accurately even though we don't apply any attack.
@@ -24,10 +26,15 @@ accuracy
 * [**frequency methods**](https://github.com/ShieldMnt/invisible-watermark/wiki/Frequency-Methods)
  
 > * **dwtDct**: DWT + DCT transform, embed watermark bit into max non-trivial coefficient of block dct coefficents
+> 
+> * **dwtDctSvd**: DWT + DCT transform, SVD decomposition of each block, embed watermark bit into singular value decomposition
+
+* [**rivaGan**](https://github.com/ShieldMnt/invisible-watermark#rivagan-experimental): encoder/decoder model with Attention mechanism + embed watermark bits into vector.
 
 > background:
 > * [Discrete wavelet transform](https://en.wikipedia.org/wiki/Discrete_wavelet_transform)
 > * [Discrete cosine transform](https://en.wikipedia.org/wiki/Discrete_cosine_transform).
+> * [RivaGAN](https://github.com/DAI-Lab/RivaGAN), a deep-learning model trained from Hollywood2 movie clips dataset.
 
 ## How to install
 `pip install invisible-watermark`
@@ -36,12 +43,43 @@ accuracy
 ## [Library API](https://github.com/ShieldMnt/invisible-watermark/wiki/API)
 ### Embed watermark
 
+* **example** embed 4 characters (32 bits) watermark
+
+```python
+import cv2
+from imwatermark import WatermarkEncoder
+
+bgr = cv2.imread('test.png')
+wm = 'test'
+
+encoder = WatermarkEncoder()
+encoder.set_watermark('bytes', wm.encode('utf-8'))
+bgr_encoded = encoder.encode(bgr, 'dwtDct')
+
+cv2.imwrite('test_wm.png', bgr_encoded)
+```
+
+### Decode watermark
+* **example** decode 4 characters (32 bits) watermark
+
+```python
+import cv2
+from imwatermark import WatermarkDecoder
+
+bgr = cv2.imread('test_wm.png')
+
+decoder = WatermarkDecoder('bytes', 32)
+watermark = decoder.decode(bgr, 'dwtDct')
+print(watermark.decode('utf-8'))
+```
+
+
 ## CLI Usage
 
 ```
-embed watermark:  python ./invisible-watermark -v -a encode -t bytes -m dwtDct -w 'test' -o ./uploads/wm.png ./test/images/British_Shorthair_156.jpg
+embed watermark:  ./invisible-watermark -v -a encode -t bytes -m dwtDct -w 'hello' -o ./test_vectors/wm.png ./test_vectors/original.jpg
 
-decode watermark: python ./invisible-watermark -v -a decode -t bytes -m dwtDct -l 48 ./uploads/wm.png
+decode watermark: ./invisible-watermark -v -a decode -t bytes -m dwtDct -l 40 ./test_vectors/wm.png
 
 positional arguments:
   input                 The path of input
@@ -50,13 +88,13 @@ optional arguments:
   -h, --help            show this help message and exit
   -a ACTION, --action ACTION
                         encode|decode (default: None)
-  -t TYPE, --type TYPE  bytes (default: None)
+  -t TYPE, --type TYPE  bytes|b16|bits|uuid|ipv4 (default: bits)
   -m METHOD, --method METHOD
-                        dwtDct (default: None)
+                        dwtDct|dwtDctSvd|rivaGan (default: maxDct)
   -w WATERMARK, --watermark WATERMARK
-                        embedded string (default: None)
+                        embedded string (default: )
   -l LENGTH, --length LENGTH
-                        watermark bits length, required for bytes
+                        watermark bits length, required for bytes|b16|bits
                         watermark (default: 0)
   -o OUTPUT, --output OUTPUT
                         The path of output (default: None)
@@ -68,6 +106,8 @@ optional arguments:
 For better doc reading, we compress all images in this page, but the test is taken on 1920x1080 original image.
 
 Methods are not robust to **resize** or aspect ratio changed **crop** but robust to **noise**, **color filter**, **brightness** and **jpg compress.**
+
+**rivaGan outperforms the default method on crop attack.**
 
 **only default method is ready for on-the-fly embedding.**
 
@@ -102,9 +142,15 @@ Methods are not robust to **resize** or aspect ratio changed **crop** but robust
 | Image | Method | Encoding | Decoding |
 | --- | --- | --- | --- |
 | 1920x1080 | dwtDct | 300-350ms | 150ms-200ms |
+| 1920x1080 | dwtDctSvd | 1500ms-2s | ~1s |
+| 1920x1080 | rivaGan | ~5s | 4-5s |
 | 600x600 | dwtDct | 70ms | 60ms |
+| 600x600 | dwtDctSvd | 185ms | 320ms |
+| 600x600 | rivaGan | 1s | 600ms |
 
-### Reference
-Detail : [https://github.com/shieldmnt/invisible-watermark](https://github.com/shieldmnt/invisible-watermark)
+### RivaGAN Experimental
+Further, We will deliver the 64bit rivaGan model and test the performance on GPU environment.
 
-Dataset : [https://www.kaggle.com/datasets/zippyz/cats-and-dogs-breeds-classification-oxford-dataset](https://www.kaggle.com/datasets/zippyz/cats-and-dogs-breeds-classification-oxford-dataset)
+Detail: [https://github.com/DAI-Lab/RivaGAN](https://github.com/DAI-Lab/RivaGAN)
+
+Zhang, Kevin Alex and Xu, Lei and Cuesta-Infante, Alfredo and Veeramachaneni, Kalyan. Robust Invisible Video Watermarking with Attention. MIT EECS, September 2019.[[PDF](https://arxiv.org/abs/1909.01285)]

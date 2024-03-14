@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stealth Watermark</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+
+body, html {
+  height: 100%;
+  line-height: 1.8;
+}
+
+/* Full height image header */
+.bgimg-1 {
+  background-position: center;
+  background-size: cover;
+  background-image: url("/static/bg_full.png");
+  height: 100%;
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+}
+
+.w3-bar .w3-button {
+  padding: 16px;
+}
+
+.loading-spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+
+.loading-spinner .loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 100px;
+    height: 100px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+}
+
+* {box-sizing: border-box}
+.mySlides1, .mySlides2 {display: none}
+img {vertical-align: middle;}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a grey background color */
+.prev:hover, .next:hover {
+  background-color: #f1f1f1;
+  color: black;
+}
+
+/* The dot container */
+.dot-container {
+  text-align: center;
+  padding: 20px;
+}
+
+/* Styling for dots */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+/* Styling for active dots */
+.active {
+  background-color: #717171;
+}
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Six columns side by side */
+.column {
+  float: left;
+  width: 20%;
+}
+.cursor {
+  cursor: pointer;
+}
+.demo {
+  opacity: 0.6;
+}
+.active,
+.demo:hover {
+  opacity: 1;
+}
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .prev, .next,.text {font-size: 11px}
+}
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+</head>
+<body class = "bgimg-1">
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-card" id="myNavbar">
+    <a href="{{url_for('home_page')}}" class="w3-bar-item w3-button w3-wide">Stealth Watermark</a>
+    <!-- Right-sided navbar links -->
+    <div class="w3-right w3-hide-small">
+      <a href="{{url_for('home_page')}}" class="w3-bar-item w3-button"><i class="fa fa-home"></i> Home</a>
+      <a href="{{url_for('add_page')}}" class="w3-bar-item w3-button"><i class="fa fa-image"></i> Add</a>
+      <a href="{{url_for('check_page')}}" class="w3-bar-item w3-button"><i class="fa fa-check-square-o"></i> Check</a>
+      <a href="{{url_for('howtouse_page')}}" class="w3-bar-item w3-button"><i class="fa fa-book"></i> How to use</a>
+      <a href="{{url_for('login')}}" class="w3-bar-item w3-button"><i class="fa fa-chevron-right"></i> Login</a>
+    </div>
+    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+
+    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+</div>
+
+<!-- Sidebar on small screens when clicking the menu icon -->
+<nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
+  <a href="{{url_for('home_page')}}" onclick="w3_close()" class="w3-bar-item w3-button"> Home</a>
+  <a href="{{url_for('add_page')}}" onclick="w3_close()" class="w3-bar-item w3-button"> Add Watermark</a>
+  <a href="{{url_for('check_page')}}" onclick="w3_close()" class="w3-bar-item w3-button">Check Watermark</a>
+  <a href="{{url_for('howtouse_page')}}" onclick="w3_close()" class="w3-bar-item w3-button"> How to use</a>
+  <a href="{{url_for('login')}}" onclick="w3_close()" class="w3-bar-item w3-button"> Login</a>
+</nav>
+
+<!-- Header with full-height image -->
+<header class="w3-display-container" id="home">
+  <div class="w3-text-black" style="width: 100%;padding:48px; text-align: center;">
+    <span style="font-size:48px;"class="w3-hide-medium w3-hide-small">Step for Add invisible watermark</span><br>
+    <span style="font-size:36px"class="w3-hide-large w3-hide-small ">Step for Add invisible watermark</span><br>
+    <span style="font-size:21px"class="w3-hide-large w3-hide-medium ">Step for Add invisible watermark</span><br>
+    <div class="slideshow-container" style="text-align: center;">
+      <div class="mySlides1">
+        <img src="{{ url_for('static', filename = 'add_1.png') }}" style="width:100%">
+      </div>
+
+      <div class="mySlides1">
+        <img src="{{ url_for('static', filename = 'add_2.png') }}" style="width:100%">
+      </div>
+
+      <div class="mySlides1">
+        <img src="{{ url_for('static', filename = 'add_3.png') }}" style="width:100%">
+      </div>
+      <div class="mySlides1">
+        <img src="{{ url_for('static', filename = 'add_4.png') }}" style="width:100%">
+      </div>
+      <div class="mySlides1">
+        <img src="{{ url_for('static', filename = 'add_5.png') }}" style="width:100%">
+      </div>
+      <div class="row">
+        <div class="column">
+          <img class="demo cursor" src="{{ url_for('static', filename = 'number_1.png') }}" style="width:100%" onclick="currentSlide(1, 0)" alt="The Woods">
+        </div>
+        <div class="column">
+          <img class="demo cursor" src="{{ url_for('static', filename = 'number_2.png') }}" style="width:100%" onclick="currentSlide(2, 0)" alt="Cinque Terre">
+        </div>
+        <div class="column">
+          <img class="demo cursor" src="{{ url_for('static', filename = 'number_3.png') }}" style="width:100%" onclick="currentSlide(3, 0)" alt="Mountains and fjords">
+        </div>
+        <div class="column">
+          <img class="demo cursor" src="{{ url_for('static', filename = 'number_4.png') }}" style="width:100%" onclick="currentSlide(4, 0)" alt="Northern Lights">
+        </div>
+        <div class="column">
+          <img class="demo cursor" src="{{ url_for('static', filename = 'number_5.png') }}" style="width:100%" onclick="currentSlide(5, 0)" alt="Nature and sunrise">
+        </div>
+      </div>
+      <a class="prev" style="display: block;" onclick="plusSlides(-1, 0)">&#10094;</a>
+      <a class="next" style="display: block;" onclick="plusSlides(1, 0)">&#10095;</a>
+    </div>
+    <span style="font-size:48px"class="w3-hide-small w3-hide-medium">Step for Check invisible watermark</span><br>
+    <span style="font-size:36px"class="w3-hide-large w3-hide-small ">Step for Check invisible watermark</span><br>
+    <span style="font-size:19px"class="w3-hide-large w3-hide-medium ">Step for Check invisible watermark</span><br>
+    <div class="slideshow-container">
+      <div class="mySlides2">
+        <img src="{{ url_for('static', filename = 'check_1.png') }}" style="width:100%">
+      </div>
+
+      <div class="mySlides2">
+        <img src="{{ url_for('static', filename = 'check_2.png') }}" style="width:100%">
+      </div>
+
+      <div class="mySlides2">
+        <img src="{{ url_for('static', filename = 'check_3.png') }}" style="width:100%">
+      </div>
+      <div class="mySlides2">
+        <img src="{{ url_for('static', filename = 'check_4.png') }}" style="width:100%">
+      </div>
+      <div class="mySlides2">
+        <img src="{{ url_for('static', filename = 'check_5.png') }}" style="width:100%">
+      </div>
+      <div class="row">
+        <div class="column">
+          <img class="demo cursor" src="{{ url_for('static', filename = 'number_1.png') }}" style="width:100%" onclick="currentSlide(1, 1)" alt="The Woods">
+        </div>
+        <div class="column">
+          <img class="demo cursor" src="{{ url_for('static', filename = 'number_2.png') }}" style="width:100%" onclick="currentSlide(2, 1)" alt="Cinque Terre">
+        </div>
+        <div class="column">
+          <img class="demo cursor" src="{{ url_for('static', filename = 'number_3.png') }}" style="width:100%" onclick="currentSlide(3, 1)" alt="Mountains and fjords">
+        </div>
+        <div class="column">
+          <img class="demo cursor" src="{{ url_for('static', filename = 'number_4.png') }}" style="width:100%" onclick="currentSlide(4, 1)" alt="Northern Lights">
+        </div>
+        <div class="column">
+          <img class="demo cursor" src="{{ url_for('static', filename = 'number_5.png') }}" style="width:100%" onclick="currentSlide(5, 1)" alt="Nature and sunrise">
+        </div>
+      </div>
+      <div>
+        <a class="prev" style="display: block;" onclick="plusSlides(-1, 1)">&#10094;</a>
+        <a class="next" style="display: block;" onclick="plusSlides(1, 1)">&#10095;</a>
+      </div>
+    </div>
+  
+  </div> 
+</header>
+
+
+<!-- Modal for full size images on click-->
+<div id="modal01" class="w3-modal w3-black" onclick="this.style.display='none'">
+  <span class="w3-button w3-xxlarge w3-black w3-padding-large w3-display-topright" title="Close Modal Image">×</span>
+  <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
+    <img id="img01" class="w3-image">
+    <p id="caption" class="w3-opacity w3-large"></p>
+  </div>
+</div>
+ 
+<script>
+let slideIndex = [1,1];
+let slideId = ["mySlides1", "mySlides2"]
+showSlides(1, 0);
+showSlides(1, 1);
+
+function plusSlides(n, no) {
+  showSlides(slideIndex[no] += n, no);
+}
+
+function showSlides(n, no) {
+  let i;
+  let x = document.getElementsByClassName(slideId[no]);
+  if (n > x.length) {slideIndex[no] = 1}    
+  if (n < 1) {slideIndex[no] = x.length}
+  for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";  
+  }
+  x[slideIndex[no]-1].style.display = "block";  
+}
+
+function currentSlide(n, no) {
+  showSlides(slideIndex[no] = n, no);
+}
+
+// Modal Image Gallery
+function onClick(element) {
+  document.getElementById("img01").src = element.src;
+  document.getElementById("modal01").style.display = "block";
+  var captionText = document.getElementById("caption");
+  captionText.innerHTML = element.alt;
+}
+
+function showSpinner() {
+    // แสดง Loading Spinner
+    var spinner = document.createElement('div');
+    spinner.classList.add('loading-spinner');
+    spinner.innerHTML = '<div class="loader"></div>'; // เพิ่ม loader ลงใน div spinner
+    document.body.appendChild(spinner);
+
+    // เมื่อคลิกลิงก์แล้ว ให้ลิงก์นั้นเปลี่ยนไปยัง URL ที่กำหนด
+    // คุณอาจต้องปรับปรุง URL ตามที่ต้องการ
+    setTimeout(function() {
+        window.location.href = "{{url_for('home_page')}}";
+    }, 1000); // หรือจะลงเวลาที่ต้องการให้ Spinner แสดงเป็นเวลาใดก็ได้
+}
+
+// Toggle between showing and hiding the sidebar when clicking the menu icon
+var mySidebar = document.getElementById("mySidebar");
+
+function w3_open() {
+  if (mySidebar.style.display === 'block') {
+    mySidebar.style.display = 'none';
+  } else {
+    mySidebar.style.display = 'block';
+  }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+    mySidebar.style.display = "none";
+}
+
+</script>
+
+</body>
+</html>

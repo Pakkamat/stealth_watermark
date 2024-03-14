@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stealth Watermark</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+
+body, html {
+  height: 100%;
+  line-height: 1.8;
+}
+
+/* Full height image header */
+.bgimg-1 {
+  background-position: center;
+  background-size: cover;
+  background-image: url("/static/bg_full.png");
+  min-height: 100%;
+}
+
+.w3-bar .w3-button {
+  padding: 16px;
+}
+
+/* เรียงลำดับสไตล์เริ่มต้น */
+input[type="file"] {
+  padding: 10px 15px; /* ปรับขนาดพื้นที่ภายในปุ่ม */
+  border: 2px solid #4CAF50; /* เส้นขอบของปุ่ม */
+  background-color: #4CAF50; /* สีพื้นหลังของปุ่ม */
+  color: white; /* สีของข้อความ */
+  border-radius: 5px; /* ทำให้มีขอบเรียบเส้น */
+  cursor: pointer; /* สร้างเคอร์เซอร์เป็นรูปปุ่ม */
+  transition: background-color 0.3s, color 0.3s; /* เพิ่มอนิเมชันเมื่อมีการเปลี่ยนแปลงสี */
+}
+
+/* เมื่อประกาศสถานะ focus ของปุ่ม */
+input[type="file"]:focus {
+  outline: none; /* ไม่ต้องมีเส้นขอบเมื่อได้รับการเลือก */
+}
+
+/* เมื่อผู้ใช้เอาเมาส์ไปชี้ที่ปุ่ม */
+input[type="file"]:hover {
+  background-color: #45a049; /* เปลี่ยนสีพื้นหลังเมื่อผู้ใช้ชี้เมาส์ที่ปุ่ม */
+}
+
+/* เมื่อมีการกดปุ่ม */
+input[type="file"]:active {
+  background-color: #4CAF50; /* กลับไปสีเดิมเมื่อมีการกด */
+}
+
+/* ข้อความภายในปุ่ม */
+input[type="file"]::before {
+  content: "Uploads Img"; /* ข้อความที่ต้องการให้แสดง */
+}
+
+/* ซ่อนข้อความ "No file chosen" */
+input[type="file"]::-webkit-file-upload-button {
+  visibility: hidden; /* ซ่อนข้อความที่แสดงค่าเริ่มต้น */
+}
+
+/* CSS สำหรับ Loading Spinner */
+.loading-spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+
+.loading-spinner .loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 100px;
+    height: 100px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+}
+/* ปรับขนาดของปุ่มให้เป็น 50% ของความกว้างของหน้าจอเมื่อหน้าจอน้อยกว่า 600px */
+@media screen and (max-width: 600px) {
+  #fileInput2 {
+    width: 100%;
+  }
+  #textInput2 {
+    width: 35%;
+  }
+}
+
+/* ปรับขนาดของปุ่มให้เป็น 30% ของความกว้างของหน้าจอเมื่อหน้าจออยู่ระหว่าง 600px ถึง 1200px */
+@media screen and (min-width: 600px) and (max-width: 1200px) {
+  #fileInput2 {
+    width: 80%;
+  }
+  #textInput2 {
+    width: 15%;
+  }
+}
+
+/* ปรับขนาดของปุ่มให้เป็น 20% ของความกว้างของหน้าจอเมื่อหน้าจอมีขนาดมากกว่า 1200px */
+@media screen and (min-width: 1200px) {
+  #fileInput2 {
+    width: 40%;
+  }
+  #textInput2 {
+    width: 15%;
+  }
+}
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+</head>
+<body class="bgimg-1">
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-card" id="myNavbar">
+    <a href="{{url_for('home_page')}}" class="w3-bar-item w3-button w3-wide">Stealth Watermark</a>
+    <!-- Right-sided navbar links -->
+    <div class="w3-right w3-hide-small">
+      <a href="{{url_for('home_page')}}" class="w3-bar-item w3-button" onclick="showSpinner()"><i class="fa fa-home"></i> Home</a>
+      <a href="{{url_for('add_page')}}" class="w3-bar-item w3-button" onclick="showSpinner()"><i class="fa fa-image"></i> Add</a>
+      <a href="{{url_for('check_page')}}" class="w3-bar-item w3-button" onclick="showSpinner()"><i class="fa fa-check-square-o"></i> Check</a>
+      <a href="{{url_for('howtouse_page')}}" class="w3-bar-item w3-button" onclick="showSpinner()"><i class="fa fa-book"></i> How to use</a>
+      <a href="{{url_for('logout')}}" class="w3-bar-item w3-button" onclick="showSpinner()"><i class="fa fa-chevron-right"></i> Logout</a>
+      <span class="w3-bar-item w3-button">Hi, {{name}}</span>
+    </div>
+    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+
+    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+</div>
+
+<!-- Sidebar on small screens when clicking the menu icon -->
+<nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
+  <a href="{{url_for('home_page')}}" onclick="w3_close()" class="w3-bar-item w3-button"> Home</a>
+  <a href="{{url_for('add_page')}}" onclick="w3_close()" class="w3-bar-item w3-button"> Add Watermark</a>
+  <a href="{{url_for('check_page')}}" onclick="w3_close()" class="w3-bar-item w3-button">Check Watermark</a>
+  <a href="{{url_for('howtouse_page')}}" onclick="w3_close()" class="w3-bar-item w3-button"> How to use</a>
+  <a href="{{url_for('login')}}" onclick="w3_close()" class="w3-bar-item w3-button"> Logout</a>
+  <span class="w3-bar-item w3-button">Hi, {{name}}</span>
+</nav>
+
+<!-- Header with full-height image -->
+<header class="bgimg-1 w3-display-container" id="home">
+  <div class="w3-display-left w3-text-black" style="width: 100%; padding:48px">
+    <span class="w3-jumbo w3-hide-small w3-hide-medium">Check watermark in image</span><br>
+    <span style="font-size:30px"class="w3-hide-large w3-hide-small ">Check watermark in image</span><br>
+    <span style="font-size:23px"class="w3-hide-large w3-hide-medium ">Check watermark in image</span><br>
+    <span style="font-size:24px"class="w3-hide-small">Drag images and drop |or| Click uploads (.jpg, .png)</span><br>
+    <span style="font-size:13px"class="w3-hide-large w3-hide-medium ">Click uploads (.jpg, .png)</span><br>
+    <form action="/check" method="post" enctype="multipart/form-data">
+      <!-- ปุ่มเลือกไฟล์ -->
+      <input type="file" id="fileInput2" name="fileInput2" multiple accept=".jpg, .png" onchange="handleFiles(this.files)" class="w3-button w3-pale-blue w3-border w3-border-blue w3-round-large w3-large">
+      <br><br>
+      <!-- กล่องข้อความ -->
+      <label for="textInput2" style="font-size:24px"class="w3-hide-small ">Enter word to watermark : </label>
+      <label for="textInput2" style="font-size:15px"class="w3-hide-large w3-hide-medium ">Enter word to watermark : </label>
+      <input type="text" id="textInput2" name="textInput2">
+      <br>
+      <!-- ปุ่ม submit -->
+      <input type="submit" value="Check Watermark" class="w3-button w3-blue w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">
+    </form>
+  </div> 
+</header>
+
+<!-- Modal for full size images on click-->
+<div id="modal01" class="w3-modal w3-black" onclick="this.style.display='none'">
+  <span class="w3-button w3-xxlarge w3-black w3-padding-large w3-display-topright" title="Close Modal Image">×</span>
+  <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
+    <img id="img01" class="w3-image">
+    <p id="caption" class="w3-opacity w3-large"></p>
+  </div>
+</div>
+
+<script>
+// เมื่อกดปุ่ม "Add Watermark"
+document.querySelector('form').addEventListener('submit', function() {
+    // แสดง Loading Spinner
+    var spinner = document.createElement('div');
+    spinner.classList.add('loading-spinner');
+    spinner.innerHTML = '<div class="loader"></div>'; // เพิ่ม loader ลงใน div spinner
+    document.body.appendChild(spinner);
+});
+
+// เมื่อข้อมูลถูกส่งไปยังเซิร์ฟเวอร์เสร็จสิ้น
+// ซ่อน Loading Spinner
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('.loading-spinner').style.display = 'none';
+});
+function showSpinner() {
+    // แสดง Loading Spinner
+    var spinner = document.createElement('div');
+    spinner.classList.add('loading-spinner');
+    spinner.innerHTML = '<div class="loader"></div>'; // เพิ่ม loader ลงใน div spinner
+    document.body.appendChild(spinner);
+
+    // เมื่อคลิกลิงก์แล้ว ให้ลิงก์นั้นเปลี่ยนไปยัง URL ที่กำหนด
+    // คุณอาจต้องปรับปรุง URL ตามที่ต้องการ
+    setTimeout(function() {
+        window.location.href = "{{url_for('add_page')}}";
+    }, 1000); // หรือจะลงเวลาที่ต้องการให้ Spinner แสดงเป็นเวลาใดก็ได้
+}
+// Modal Image Gallery
+function onClick(element) {
+  document.getElementById("img01").src = element.src;
+  document.getElementById("modal01").style.display = "block";
+  var captionText = document.getElementById("caption");
+  captionText.innerHTML = element.alt;
+}
+
+
+// Toggle between showing and hiding the sidebar when clicking the menu icon
+var mySidebar = document.getElementById("mySidebar");
+
+function w3_open() {
+  if (mySidebar.style.display === 'block') {
+    mySidebar.style.display = 'none';
+  } else {
+    mySidebar.style.display = 'block';
+  }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+    mySidebar.style.display = "none";
+}
+</script>
+
+</body>
+</html>
