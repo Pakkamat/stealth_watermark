@@ -31,10 +31,27 @@ accuracy
 
 ## How to install
 `pip install invisible-watermark`
-
+`pip install Flask`
+`pip install opencv-python`
+`pip install pyrebase`
 
 ## [Library API](https://github.com/ShieldMnt/invisible-watermark/wiki/API)
-### Embed watermark
+### How to use
+How To Use
+1. Open app.py
+
+2. Input your data from your Google Firebase
+```python
+config = {
+  "apiKey":"Your api key",
+  "authDomain": "Your authDomain",
+  "databaseURL": "Your databaseURL",
+  "storageBucket": "Your storageBucke"
+}
+```
+3. Run App.py
+
+4. Open http://127.0.0.1:5888/ on your browser
 
 ## CLI Usage
 

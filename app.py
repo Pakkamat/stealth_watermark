@@ -15,10 +15,10 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 #Add your own details
 config = {
-  "apiKey": "AIzaSyC7TfSoZpVAtgATO2B84rt_g0gXi0qq3P8",
-  "authDomain": "cdti-6310301036.firebaseapp.com",
-  "databaseURL": "https://cdti-6310301036-default-rtdb.asia-southeast1.firebasedatabase.app",
-  "storageBucket": "cdti-6310301036.appspot.com"
+  "apiKey":"Your api key",
+  "authDomain": "Your authDomain",
+  "databaseURL": "Your databaseURL",
+  "storageBucket": "Your storageBucke"
 }
 
 #initialize firebase
