@@ -34,7 +34,6 @@ accuracy
 
 ## [Library API](https://github.com/ShieldMnt/invisible-watermark/wiki/API)
 ### How to use
-How To Use
 1. Open app.py
 
 2. Input your data from your [Google Firebase](https://firebase.google.com/)
