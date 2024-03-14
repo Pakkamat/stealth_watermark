@@ -49,7 +49,9 @@ config = {
   "storageBucket": "Your storageBucke"
 }
 ```
-3. Run App.py
+3. ```python
+run App.py
+```
 
 4. Open http://127.0.0.1:5888/ on your browser
 
@@ -104,7 +106,7 @@ Methods are not robust to **resize** or aspect ratio changed **crop** but robust
 | Number | Attacks | Example Image | Detected |
 | --- | --- | --- | --- |
 | 1 | Re-download | ![wm_redownload](https://raw.githubusercontent.com/Pakkamat/stealth_watermark/main/Test/image_downloads/1_wm.png) | 80% |
-| 2 | Crop 1/4 | ![wm_crop](https://raw.githubusercontent.com/Pakkamat/stealth_watermark/main/Test/image_crop/1_wm.png) | Fail% |
+| 2 | Crop 1/4 | ![wm_crop](https://raw.githubusercontent.com/Pakkamat/stealth_watermark/main/Test/image_crop/1_wm.png) | Fail |
 | 3 | Brightness | ![wm_rotate](https://raw.githubusercontent.com/Pakkamat/stealth_watermark/main/Test/image_rotate/1_wm.png) | Fail |
 | 4 | Noise | ![wm_noise](https://raw.githubusercontent.com/Pakkamat/stealth_watermark/main/Test/image_noise/1_wm.png) | 55% |
 | 5 | brightness | ![wm_brightness](https://raw.githubusercontent.com/Pakkamat/stealth_watermark/main/Test/image_bright/bright_1.png) | 64% |
