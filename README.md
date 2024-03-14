@@ -51,7 +51,7 @@ config = {
 ```
 3. Run app.py
 ```python
-run app.py
+python app.py
 ```
 
 4. Open http://127.0.0.1:5888/ on your browser
