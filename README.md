@@ -10,7 +10,7 @@ invisible-watermark is a **python** library and command line tool for creating i
 [supported algorithms](https://github.com/ShieldMnt/invisible-watermark#supported-algorithms)
 * [Discrete wavelet transform](https://en.wikipedia.org/wiki/Discrete_wavelet_transform) + [Discrete cosine transform](https://en.wikipedia.org/wiki/Discrete_cosine_transform) frequency embedding algorithm variants.
 
-[speed](https://github.com/ShieldMnt/invisible-watermark#running-speed-cpu-only)
+[speed](https://github.com/Pakkamat/stealth_watermark/tree/main?tab=readme-ov-file#running-speed-cpu-only)
 * default embedding method ```dwtDct``` is fast and suitable for on-the-fly embedding
 
 accuracy
