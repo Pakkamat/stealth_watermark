@@ -98,20 +98,17 @@ Methods are not robust to **resize** or aspect ratio changed **crop** but robust
 ### Attack Performance
 
 
-**Test**
+**Test embed watermark in 100 images**
+*Showing 1 image out of 100 images*
 
-![wm](https://user-images.githubusercontent.com/1647036/106387712-03c17400-6416-11eb-9490-e5e860b025ad.png)
-
-| Attacks | Image | Freq Method | RivaGan |
+| Number | Attacks | Detected |
 | --- | --- | --- | --- |
-| JPG Compress | ![wm_jpg](https://user-images.githubusercontent.com/1647036/106387721-0e7c0900-6416-11eb-840c-8eab1cb9d748.jpg) | Pass | Pass |
-| Noise | ![wm_noise](https://user-images.githubusercontent.com/1647036/106387874-c90c0b80-6416-11eb-99f3-1716f01f2211.png) | Pass | Pass |
-| Brightness | ![wm_darken](https://user-images.githubusercontent.com/1647036/106387718-0cb24580-6416-11eb-83af-7f9e94f13cae.png) | Pass | Pass |
-| Overlay | ![wm_overlay](https://user-images.githubusercontent.com/1647036/106387733-13d95380-6416-11eb-8aa4-b3d2acfa8637.png) | Pass | Pass |
-| Mask | ![wm_mask_large](https://user-images.githubusercontent.com/1647036/106387726-10de6300-6416-11eb-99c3-4a0f70f99224.png) | Pass | Pass |
-| crop 7x5 | ![wm_crop_7x5](https://user-images.githubusercontent.com/1647036/106387713-06bc6480-6416-11eb-8ae0-f64289642450.png) | Fail | Pass |
-| Resize 50% | ![wm_resize_half](https://user-images.githubusercontent.com/1647036/106387735-15a31700-6416-11eb-8589-2ffa38df2a9a.png) | Fail | Fail |
-| Rotate 30 degress | ![wm_rotate](https://user-images.githubusercontent.com/1647036/106387737-19369e00-6416-11eb-8417-05e53e11b77f.png) | Fail | Fail|
+| 1 | Re-download | ![wm_redownload](https://raw.githubusercontent.com/Pakkamat/stealth_watermark/main/Test/image_downloads/1_wm.png) | 80% |
+| 2 | Crop 1/4 | ![wm_crop](https://raw.githubusercontent.com/Pakkamat/stealth_watermark/main/Test/image_crop/1_wm.png) | Fail% |
+| 3 | Brightness | ![wm_rotate](https://raw.githubusercontent.com/Pakkamat/stealth_watermark/main/Test/image_rotate/1_wm.png) | Fail |
+| 4 | Noise | ![wm_noise](https://raw.githubusercontent.com/Pakkamat/stealth_watermark/main/Test/image_noise/1_wm.png) | 55% |
+| 5 | brightness | ![wm_brightness](https://raw.githubusercontent.com/Pakkamat/stealth_watermark/main/Test/image_bright/bright_1.png) | 64% |
+| 6 | Add text watermark | ![wm_addtextwm](https://raw.githubusercontent.com/Pakkamat/stealth_watermark/main/Test/image_text/1_wm.png) | 80% |
 
 
 
