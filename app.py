@@ -116,10 +116,13 @@ def uploads():
                         message_warning2 = "Watermarks do not work well with a homogeneous background color."
                         print("ไฟล์ : {} |ข้อความที่ป้อน : {} |ผลลัพธ์ : {}".format(file.filename, text_input, result_image))
                 except:
+                    del img_watermark_list[-1]
                     pass
         len_image = len(img_watermark_list)
-            
-        if len(img_watermark_list) == 1:
+        if len(img_watermark_list) == 0:
+            # ส่งกลับไปยังหน้าแรก
+            return render_template('add_page.html', email = person["email"], name = person["name"])
+        elif len(img_watermark_list) == 1:
             print(img_watermark_list, "image have 1")
             # ส่งกลับไปยังหน้าแรก
             return render_template('download_page.html', email = person["email"], name = person["name"], img_watermark_list = img_watermark_list, file_load = filename1, len_image = len_image, result_image_list2 = result_image_list2, message_warning=message_warning, message_warning2=message_warning2)
