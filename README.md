@@ -42,7 +42,7 @@ config = {
   "apiKey":"Your api key",
   "authDomain": "Your authDomain",
   "databaseURL": "Your databaseURL",
-  "storageBucket": "Your storageBucke"
+  "storageBucket": "Your storageBucket"
 }
 ```
 3. Run app.py
