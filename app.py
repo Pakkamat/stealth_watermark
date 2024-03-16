@@ -85,12 +85,12 @@ def uploads():
     message_warning2 = None
     if uploaded_files and text_input:
         for file in uploaded_files:
+            #print(f'ไฟล์ {file.filename} ถูกบันทึกเรียบร้อย')
+            filename_without_spaces = file.filename.replace(" ", "")
             # บันทึกไฟล์ที่ถูกอัปโหลด
-            file.save(os.path.join(uploads_dir,file.filename))
-            print(f'ไฟล์ {file.filename} ถูกบันทึกเรียบร้อย')
-            
-            file_split = file.filename.split('.')[0]
-            cmd_command = ("python ./invisible-watermark -v -a encode -t bytes -m dwtDct -w {} -o ./uploads/{}_wm.png ./uploads/{}".format(text_input, file_split, file.filename))
+            file.save(os.path.join(uploads_dir,filename_without_spaces))
+            file_split = filename_without_spaces.split('.')[0]
+            cmd_command = ("python ./invisible-watermark -v -a encode -t bytes -m dwtDct -w {} -o ./uploads/{}_wm.png ./uploads/{}".format(text_input, file_split, filename_without_spaces))
             result = subprocess.run(cmd_command, shell=True, capture_output=True, text=True)
             filename1 = "{}_wm.png".format(file_split)
             img_watermark_list.append(filename1)
@@ -266,3 +266,4 @@ def register():
         
 if __name__ == '__main__':
     app.run(debug=True, port=5888)
+

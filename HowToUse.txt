@@ -1,9 +1,0 @@
-How To Use
-1. Open app.py
-2. Input your data from your Firebase
-config = {
-  "apiKey":"Your api key",
-  "authDomain": Your authDomain",
-  "databaseURL": "Your databaseURL",
-  "storageBucket": "Your storageBucke"
-}

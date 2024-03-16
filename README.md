@@ -30,7 +30,7 @@ accuracy
 `pip install invisible-watermark`
 `pip install Flask`
 `pip install opencv-python`
-`pip install pyrebase`
+`pip install pyrebase4`
 
 ## [Library API](https://github.com/ShieldMnt/invisible-watermark/wiki/API)
 ### How to use
